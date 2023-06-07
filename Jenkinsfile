@@ -1,15 +1,14 @@
 pipeline {
-//    agent {
-//        label 'node2'
-//    }
-      agent any
+    agent {
+        label 'workernode1'
+    }
         
 
     stages {
         stage('Checkout') {
             steps {
                 // Get some code from a GitHub repository
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/darsan-antra/maven-project.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ifgreen5712/maven-project.git']]])
             }
         }
         
@@ -31,8 +30,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_cred', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
         	    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
                 }
-                sh "docker tag webapp:v${BUILD_NUMBER} saidevopsworld/webapp:v${BUILD_NUMBER}"
-                sh "docker push saidevopsworld/webapp:v${BUILD_NUMBER}"
+                sh "docker tag webapp:v${BUILD_NUMBER} ifgreen5712/webapp:v${BUILD_NUMBER}"
+                sh "docker push ifgreen5712/webapp:v${BUILD_NUMBER}"
             }
         }
         
