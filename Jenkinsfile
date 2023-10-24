@@ -1,6 +1,8 @@
 pipeline {
     agent {
         label 'workernode1'
+
+    }
     }
         
 
